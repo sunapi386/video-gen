@@ -8,8 +8,10 @@ __pycache__/
 
 # Output
 output/
-*.mp4
 *.state.json
+
+# Keep demo videos tracked
+# *.mp4 in demos/ is allowed
 
 # OS
 .DS_Store
