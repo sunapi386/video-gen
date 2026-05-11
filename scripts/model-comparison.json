@@ -1,0 +1,48 @@
+{
+  "title": "Model Comparison — Same Prompt Across All Video Models",
+  "description": "Generate the same scene with every available t2v model to compare quality, speed, and style.",
+  "scenes": [
+    {
+      "name": "compare_kling_v3",
+      "prompt": "Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {"aspect_ratio": "16:9", "mode": "pro", "sound": "off"}
+    },
+    {
+      "name": "compare_kling_v2",
+      "prompt": "Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality.",
+      "model": "kling-v2-6",
+      "duration": 5,
+      "metadata": {"aspect_ratio": "16:9", "mode": "pro", "sound": "off"}
+    },
+    {
+      "name": "compare_hailuo",
+      "prompt": "Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality.",
+      "model": "MiniMax-Hailuo-2.3",
+      "duration": 6,
+      "metadata": {"size": "768P"}
+    },
+    {
+      "name": "compare_seedance",
+      "prompt": "Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality.",
+      "model": "dreamina-seedance-2-0-260128",
+      "duration": 5,
+      "metadata": {"resolution": "1080p", "ratio": "16:9", "generate_audio": false}
+    },
+    {
+      "name": "compare_seedance_fast",
+      "prompt": "Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality.",
+      "model": "dreamina-seedance-2-0-fast-260128",
+      "duration": 5,
+      "metadata": {"resolution": "1080p", "ratio": "16:9", "generate_audio": false}
+    },
+    {
+      "name": "compare_happyhorse",
+      "prompt": "Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality.",
+      "model": "happyhorse-1.0-t2v",
+      "duration": 5,
+      "metadata": {"size": "1920*1080"}
+    }
+  ]
+}

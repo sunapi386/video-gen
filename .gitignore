@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Environment
+.env
+
+# Output
+output/
+*.mp4
+*.state.json
+
+# OS
+.DS_Store

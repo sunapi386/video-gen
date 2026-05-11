@@ -1,0 +1,150 @@
+{
+  "title": "Self-Hosted K8s Migration — From Cloud to Home Lab",
+  "description": "Instructional video series: migrating production from Railway PaaS to self-hosted K3s on Proxmox, with full resilience stack (UPS, LTE failover, Cloudflare Tunnel).",
+  "default_model": "kling-v3",
+  "scenes": [
+    {
+      "name": "intro_cloud_costs",
+      "prompt": "Cinematic aerial shot of a massive cloud data center campus at night, glowing blue server racks visible through glass walls, camera slowly pushing in. Rain falls on the roof. A digital counter overlay ticks upward showing rising monthly costs. Dark, moody lighting with blue and orange accents. Professional documentary style.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "railway_dashboard_frustration",
+      "prompt": "Close-up of a monitor screen showing a cloud hosting dashboard with red warning alerts and outage notifications popping up one after another. The screen reflects on a person's glasses. Camera slowly zooms into the error messages. Dramatic red lighting from the screen illuminates a dark office. Cinematic, tense atmosphere.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "home_lab_reveal",
+      "prompt": "Camera pushes through a doorway into a clean home office setup. Two server towers with blue LED lights sit on a shelf next to a compact network switch with green blinking ethernet ports. Cables neatly routed. Warm ambient lighting mixes with cool blue server LEDs. The camera orbits around the setup revealing the full workstation. Professional home lab aesthetic.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "network_switch_detail",
+      "prompt": "Extreme close-up macro shot of a 10-port network switch with 2.5 gigabit ethernet ports. Green and amber LEDs blink rapidly as data flows. An ethernet cable is being plugged into a port with a satisfying click. Shallow depth of field, professional product photography lighting. Camera slowly pulls back to reveal multiple cables connected.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "battery_ups_setup",
+      "prompt": "Hands carefully connecting thick red and black cables from a large rectangular lithium iron phosphate battery to a pure sine wave inverter. The battery has a glowing blue Bluetooth indicator. A digital multimeter nearby shows 13.2 volts. Clean workbench with tools laid out neatly. Warm workshop lighting. Technical instructional style, steady camera.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "power_circuit_diagram",
+      "prompt": "Animated technical diagram on a dark background showing power flow: grid AC power splits into two paths — one goes to a battery charger connected to a large battery, the other goes to an inverter with automatic transfer switch. Arrows flow and pulse with electricity effects. Labels appear with clean typography. Blueprint style with glowing cyan lines on dark navy background.",
+      "model": "dreamina-seedance-2-0-fast-260128",
+      "duration": 5,
+      "metadata": {
+        "resolution": "1080p",
+        "ratio": "16:9",
+        "generate_audio": false
+      }
+    },
+    {
+      "name": "lte_router_antenna",
+      "prompt": "Close-up of a compact white LTE router being placed on a shelf. Two tall black external antennas are screwed onto the SMA connectors, rising vertically. A small SIM card is inserted into the side slot. LED indicators light up one by one — power, signal bars increasing, LTE connection established. Clean product photography with soft directional light.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "network_topology_animation",
+      "prompt": "Animated technical network diagram materializing on a dark background. A fiber optic line enters from the left connecting to a central switch hub. From the switch, multiple glowing lines extend to two server nodes, an LTE router, and other devices. Data packets visualized as small glowing dots flow along the lines. The primary path pulses bright blue, the failover LTE path pulses amber. Clean vector style with depth of field effects.",
+      "model": "dreamina-seedance-2-0-fast-260128",
+      "duration": 5,
+      "metadata": {
+        "resolution": "1080p",
+        "ratio": "16:9",
+        "generate_audio": false
+      }
+    },
+    {
+      "name": "cloudflare_tunnel_visualization",
+      "prompt": "3D visualization of a Cloudflare tunnel connection. A house icon on the left sends an outbound arrow through a glowing orange tunnel to a Cloudflare shield logo in the center. From the shield, arrows fan out to multiple browser icons representing users around the world. The tunnel pulses with flowing data particles. When the primary connection breaks with a flash, the tunnel seamlessly reroutes through an LTE tower. Futuristic holographic style on dark background.",
+      "model": "dreamina-seedance-2-0-fast-260128",
+      "duration": 5,
+      "metadata": {
+        "resolution": "1080p",
+        "ratio": "16:9",
+        "generate_audio": false
+      }
+    },
+    {
+      "name": "kubernetes_deployment",
+      "prompt": "A terminal screen with green text on a black background showing Kubernetes deployment commands scrolling. Helm charts being applied, pods spinning up with status changing from Pending to Running. The terminal is reflected in a window showing city lights at night. Camera slowly zooms into the terminal text. Hacker aesthetic with green monospace font. Professional cinematic lighting.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "failover_test",
+      "prompt": "A hand reaches behind a network rack and pulls out a fiber optic cable. Immediately, status LEDs on the switch change from green to amber. On a nearby monitor, a dashboard shows the connection rerouting — the primary path goes red while the backup LTE path turns green. A progress indicator shows reconnection in seconds. Split-screen view showing both the physical action and the digital response. Documentary style.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    },
+    {
+      "name": "cost_comparison_finale",
+      "prompt": "A sleek animated infographic on a dark background. Two columns compare cloud hosting versus self-hosted. The cloud column shows a bar graph with costs rising month over month in red. The self-hosted column shows a single upfront bar then flat near-zero ongoing costs in green. Numbers animate into place. A break-even point is highlighted with a golden sparkle effect. Clean modern data visualization style with subtle particle effects.",
+      "model": "dreamina-seedance-2-0-fast-260128",
+      "duration": 5,
+      "metadata": {
+        "resolution": "1080p",
+        "ratio": "16:9",
+        "generate_audio": false
+      }
+    },
+    {
+      "name": "final_setup_hero",
+      "prompt": "Wide cinematic shot of the complete home lab setup running in a clean room. Two servers with blue LEDs, network switch with all ports active, battery backup system with green status light, LTE router with antennas. A large monitor displays a Kubernetes dashboard showing all services healthy in green. Golden hour light streams through a window, mixing with the cool blue tech lighting. Camera slowly pulls back revealing the full setup. Triumphant, accomplished mood.",
+      "model": "kling-v3",
+      "duration": 5,
+      "metadata": {
+        "aspect_ratio": "16:9",
+        "mode": "pro",
+        "sound": "off"
+      }
+    }
+  ]
+}
