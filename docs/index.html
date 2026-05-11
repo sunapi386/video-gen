@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>video-gen demos</title>
+<style>
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --border: #30363d; --accent: #58a6ff; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; color: var(--accent); }
+  p, .caption { color: var(--muted); margin-bottom: 0.5rem; font-size: 0.9rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; margin: 1rem 0; }
+  .card { background: #161b22; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .card video { width: 100%; display: block; background: #000; }
+  .card .info { padding: 0.75rem 1rem; }
+  .card .info h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+  .card .info .meta { font-size: 0.8rem; color: var(--muted); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; }
+  .badge.kling { background: #1f3a5f; color: #79c0ff; }
+  .badge.hailuo { background: #3b2f1f; color: #f0c674; }
+  .badge.seedance { background: #1f3b2f; color: #7ee787; }
+  .badge.happyhorse { background: #3b1f3b; color: #d2a8ff; }
+  .badge.winner { background: #2ea04326; color: #3fb950; border: 1px solid #3fb950; }
+  .ranking { counter-reset: rank; margin: 1rem 0; }
+  .ranking li { counter-increment: rank; list-style: none; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  .ranking li::before { content: "#" counter(rank); font-weight: 700; color: var(--accent); margin-right: 0.75rem; }
+  .prompt { background: #161b22; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; margin: 0.75rem 0 1.5rem; font-style: italic; color: var(--muted); font-size: 0.9rem; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>video-gen demos</h1>
+<p class="subtitle">Generated with <a href="https://github.com/sunapi386/video-gen">video-gen</a> via the <a href="https://tokenrouter.com">TokenRouter</a> API</p>
+
+<h2>Model Comparison</h2>
+<p>Same prompt, 5 different models. Click to play.</p>
+
+<div class="prompt">
+"Cinematic close-up of a server rack in a dimly lit room. Blue LED lights reflect off polished metal surfaces. A hand reaches in and plugs an ethernet cable into a port with a satisfying click. Green status LEDs illuminate one by one. Shallow depth of field, professional lighting, 4K quality."
+</div>
+
+<div class="grid">
+  <div class="card">
+    <video controls preload="metadata" poster="">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/06_compare_happyhorse.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge happyhorse">Happyhorse</span> <span class="badge winner">Best</span> happyhorse-1.0-t2v</h4>
+      <div class="meta">5s &middot; 2.5 MB &middot; includes generated audio</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/04_compare_seedance.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge seedance">Seedance</span> dreamina-seedance-2-0-260128</h4>
+      <div class="meta">5s &middot; 2.8 MB &middot; clean rendering, good detail</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/01_compare_kling_v3.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling</span> kling-v3</h4>
+      <div class="meta">5s &middot; 5.2 MB &middot; strong cinematic feel</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/02_compare_kling_v2.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling</span> kling-v2-6</h4>
+      <div class="meta">5s &middot; 7.0 MB &middot; previous generation</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/03_compare_hailuo.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge hailuo">Hailuo</span> MiniMax-Hailuo-2.3</h4>
+      <div class="meta">6s &middot; 677 KB &middot; lowest resolution</div>
+    </div>
+  </div>
+</div>
+
+<h3>Rankings</h3>
+<ol class="ranking">
+  <li><strong>Happyhorse</strong> &mdash; best quality + generated audio</li>
+  <li><strong>Seedance 2.0</strong> &mdash; clean rendering, good detail</li>
+  <li><strong>Kling v3</strong> &mdash; strong cinematic feel, most reliable</li>
+  <li><strong>Kling v2.6</strong> &mdash; solid but older generation</li>
+  <li><strong>Hailuo 2.3</strong> &mdash; lowest resolution output</li>
+</ol>
+
+<h2>K8s Migration &mdash; Instructional Series</h2>
+<p>13-scene storyboard for a self-hosted Kubernetes migration video, generated from <code>scripts/k8s-migration.json</code>. Scenes 6, 8, 9, 12 (Seedance Fast) failed with API errors.</p>
+
+<div class="grid">
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/01_intro_cloud_costs.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 1: Cloud Costs</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 11 MB &middot; Aerial data center, rising cost counter</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/02_railway_dashboard_frustration.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 2: Dashboard Frustration</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 7.7 MB &middot; Red outage alerts on monitoring dashboard</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/03_home_lab_reveal.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 3: Home Lab Reveal</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 6.7 MB &middot; Camera enters home office with servers</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/04_network_switch_detail.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 4: Network Switch Detail</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 8.2 MB &middot; Macro shot, ethernet cable plug</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/05_battery_ups_setup.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 5: Battery UPS Setup</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 5.5 MB &middot; LiFePO4 battery wiring to inverter</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/07_lte_router_antenna.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 7: LTE Router & Antenna</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 4.4 MB &middot; Router setup, SIM card, antenna swap</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/10_kubernetes_deployment.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 10: Kubernetes Deployment</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 12 MB &middot; Terminal: Helm charts, pods spinning up</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/11_failover_test.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 11: Failover Test</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 3.4 MB &middot; Pull fiber, watch LTE failover kick in</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/13_final_setup_hero.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4>Scene 13: Final Setup Hero</h4>
+      <div class="meta"><span class="badge kling">Kling v3</span> 6.7 MB &middot; Complete home lab, all systems green</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Source: <a href="https://github.com/sunapi386/video-gen">sunapi386/video-gen</a> &middot; Videos hosted on <a href="https://github.com/sunapi386/video-gen/releases/tag/v0.1.0-demos">GitHub Releases</a></p>
+</footer>
+
+</body>
+</html>
