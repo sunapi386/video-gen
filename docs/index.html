@@ -39,6 +39,49 @@
 <h1>video-gen demos</h1>
 <p class="subtitle">Generated with <a href="https://github.com/sunapi386/video-gen">video-gen</a> via the <a href="https://tokenrouter.com">TokenRouter</a> API</p>
 
+<h2>Paris Travel Vlog &mdash; Image-to-Video</h2>
+<p>Reference photo + cinematic prompt, generated with Kling v3 i2v mode. 10s, 9:16 vertical. Seedance 2.0 blocked the reference image (real person content filter); Kling accepted it.</p>
+
+<div class="prompt">
+"High-energy cinematic Paris travel vlog, ultra-vivid colors, fast-paced editing, dynamic handheld camera work, authentic influencer aesthetic. The woman rushes toward the camera laughing breathlessly with the Eiffel Tower behind her. Fast handheld motion, hair blowing wildly in the wind. Whip-pan selfie at Eiffel Tower, quick laugh close-up, fast spin transition beside the Seine. Louvre Pyramid with hyper-dynamic moving camera. Notre-Dame Cathedral turn toward camera while crowds blur behind. Arc de Triomphe rapid montage. Versailles Gardens with golden sunlight, running through gardens laughing. Final ultra-fast Paris montage with freeze-frame smile into camera."
+</div>
+
+<div class="grid">
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/paris_kling_v3_i2v.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling v3</span> Image-to-Video &middot; 9:16 Vertical</h4>
+      <div class="meta">10s &middot; 25.9 MB &middot; reference photo as first frame</div>
+    </div>
+  </div>
+</div>
+
+<h3>i2v Model Compatibility</h3>
+<table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin:1rem 0;">
+  <tr style="border-bottom:1px solid var(--border);">
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Model</th>
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Result</th>
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Notes</th>
+  </tr>
+  <tr style="border-bottom:1px solid var(--border);">
+    <td style="padding:0.5rem;"><span class="badge kling">Kling v3</span></td>
+    <td style="padding:0.5rem; color:#3fb950;">Accepted</td>
+    <td style="padding:0.5rem; color:var(--muted);">No content filter on real people</td>
+  </tr>
+  <tr style="border-bottom:1px solid var(--border);">
+    <td style="padding:0.5rem;"><span class="badge seedance">Seedance 2.0</span></td>
+    <td style="padding:0.5rem; color:#f85149;">Blocked</td>
+    <td style="padding:0.5rem; color:var(--muted);">PrivacyInformation &mdash; real person detected</td>
+  </tr>
+  <tr style="border-bottom:1px solid var(--border);">
+    <td style="padding:0.5rem;"><span class="badge happyhorse">Happyhorse i2v</span></td>
+    <td style="padding:0.5rem; color:#f85149;">API Error</td>
+    <td style="padding:0.5rem; color:var(--muted);">Field required: input.media &mdash; undocumented payload format</td>
+  </tr>
+</table>
+
 <h2>Model Comparison</h2>
 <p>Same prompt, 5 different models. Click to play.</p>
 

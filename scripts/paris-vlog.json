@@ -1,0 +1,22 @@
+{
+  "title": "Paris Travel Vlog — Kling v3 Image-to-Video",
+  "description": "High-energy cinematic Paris travel vlog using a reference photo as the first frame. Generated with Kling v3 i2v mode via TokenRouter API.",
+  "notes": {
+    "seedance_blocked": "Seedance 2.0 rejected the reference image with PrivacyInformation content filter (real person detected). Kling v3 accepted it without issues.",
+    "happyhorse_i2v_failed": "Happyhorse i2v returned 'Field required: input.media' — the TokenRouter API payload format for happyhorse i2v is undocumented.",
+    "image_field": "For Kling i2v, pass the image as a base64 data URI in the top-level 'image' field."
+  },
+  "scenes": [
+    {
+      "name": "paris_vlog",
+      "model": "kling-v3",
+      "image": "<base64 data URI of reference photo — use: data:image/jpeg;base64,... >",
+      "prompt": "High-energy cinematic Paris travel vlog, ultra-vivid colors, fast-paced editing, dynamic handheld camera work, authentic influencer aesthetic. The woman rushes toward the camera laughing breathlessly with the Eiffel Tower behind her. Fast handheld motion, hair blowing wildly in the wind. Whip-pan selfie at Eiffel Tower, quick laugh close-up, fast spin transition beside the Seine. Louvre Pyramid with hyper-dynamic moving camera. Notre-Dame Cathedral turn toward camera while crowds blur behind. Arc de Triomphe rapid montage with wide cinematic shots. Versailles Gardens with golden sunlight, running through gardens laughing. Final ultra-fast Paris montage with freeze-frame smile into camera.",
+      "duration": 10,
+      "metadata": {
+        "mode": "pro",
+        "aspect_ratio": "9:16"
+      }
+    }
+  ]
+}
