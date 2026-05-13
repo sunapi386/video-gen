@@ -37,7 +37,26 @@
 <body>
 
 <h1>video-gen demos</h1>
-<p class="subtitle">Generated with <a href="https://github.com/sunapi386/video-gen">video-gen</a> via the <a href="https://tokenrouter.com">TokenRouter</a> API</p>
+<p class="subtitle">Generated with <a href="https://github.com/sunapi386/video-gen">video-gen</a> via the <a href="https://tokenrouter.com">TokenRouter</a> API &middot; <a href="generate.html" style="font-weight:600;">Generate your own &rarr;</a></p>
+
+<h2>KBO Fan Cam &mdash; Image-to-Video</h2>
+<p>Korean baseball broadcast fan cam trend. Reference photo as first frame, Kling v3 i2v mode. 5s, 16:9 landscape.</p>
+
+<div class="prompt">
+"Ultra-realistic live Korean KBO baseball broadcast screenshot. The camera has just found this woman in the stadium crowd. She notices the jumbotron camera, eyes light up with surprise, then breaks into a bright genuine smile and gives a happy enthusiastic wave directly at the lens. Seated among a packed lively Korean baseball crowd holding cheering thundersticks. Wearing a clean white baseball jersey. Telephoto broadcast lens with strong compression, shallow depth of field, slight broadcast video softness, subtle camera micro-shake from stabilization. Background crowd is active, cheering, clapping, waving team towels, slightly out of focus. Bright stadium flood lights, faint LED scoreboard glow. Candid jumbotron fan cam moment, pure broadcast realism, natural skin texture, no smoothing, 16:9 horizontal TV composition."
+</div>
+
+<div class="grid">
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/kbo_fancam.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling v3</span> Image-to-Video &middot; KBO Fan Cam</h4>
+      <div class="meta">5s &middot; 11.5 MB &middot; 1760x1176 &middot; reference photo as first frame</div>
+    </div>
+  </div>
+</div>
 
 <h2>Paris Travel Vlog &mdash; Image-to-Video</h2>
 <p>Reference photo + cinematic prompt, generated with Kling v3 i2v mode. 10s, 9:16 vertical. Seedance 2.0 blocked the reference image (real person content filter); Kling accepted it.</p>

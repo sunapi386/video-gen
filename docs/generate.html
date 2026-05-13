@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>video-gen — Generate</title>
+<style>
+  :root { --bg: #0d1117; --fg: #e6edf3; --muted: #8b949e; --border: #30363d; --accent: #58a6ff; --card: #161b22; --green: #3fb950; --red: #f85149; --yellow: #d29922; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; padding: 2rem; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--muted); }
+  input[type="text"], input[type="password"], textarea, select {
+    width: 100%; padding: 0.6rem 0.75rem; background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--fg); font-family: inherit; font-size: 0.9rem; outline: none;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 100px; }
+  select { cursor: pointer; }
+
+  .row { display: flex; gap: 1rem; }
+  .row > * { flex: 1; }
+  .field { margin-bottom: 1rem; }
+
+  .drop-zone {
+    border: 2px dashed var(--border); border-radius: 8px; padding: 2rem; text-align: center;
+    color: var(--muted); cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: #161b2280; }
+  .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .drop-zone img { max-height: 200px; max-width: 100%; border-radius: 4px; margin-top: 0.5rem; }
+  .drop-zone .label { font-size: 0.9rem; }
+  .drop-zone .hint { font-size: 0.75rem; margin-top: 0.25rem; }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .preset-btn {
+    padding: 0.4rem 0.8rem; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; color: var(--fg); font-size: 0.8rem; cursor: pointer; transition: all 0.15s;
+  }
+  .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 2rem;
+    background: #238636; border: 1px solid #2ea043; border-radius: 6px;
+    color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-primary:hover { background: #2ea043; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .status-bar {
+    margin-top: 1.5rem; padding: 1rem; background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; display: none;
+  }
+  .status-bar.visible { display: block; }
+  .status-text { font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .progress-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; width: 0%; }
+  .progress-fill.done { background: var(--green); }
+  .progress-fill.error { background: var(--red); }
+  .log { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; max-height: 150px; overflow-y: auto; white-space: pre-wrap; }
+
+  .result { margin-top: 1.5rem; display: none; }
+  .result.visible { display: block; }
+  .result video { width: 100%; max-width: 640px; border-radius: 8px; background: #000; }
+  .result-actions { margin-top: 0.75rem; display: flex; gap: 0.75rem; }
+  .result-actions a, .result-actions button {
+    padding: 0.5rem 1rem; background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--accent); font-size: 0.85rem; cursor: pointer; text-decoration: none;
+  }
+  .result-actions a:hover, .result-actions button:hover { border-color: var(--accent); }
+
+  .gallery { margin-top: 2rem; }
+  .gallery h2 { font-size: 1.3rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .gallery-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .gallery-card video { width: 100%; display: block; background: #000; }
+  .gallery-card .info { padding: 0.5rem 0.75rem; font-size: 0.8rem; color: var(--muted); }
+
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<h1>video-gen</h1>
+<p class="subtitle">Image-to-video generation via <a href="https://tokenrouter.com">TokenRouter</a> API. Upload a photo, write a prompt, get a video. <a href="./">View demos</a></p>
+
+<div class="field">
+  <label for="api-key">API Key</label>
+  <input type="password" id="api-key" placeholder="sk-..." autocomplete="off">
+  <div style="font-size:0.75rem; color:var(--muted); margin-top:0.25rem;">Get one at <a href="https://tokenrouter.com" target="_blank">tokenrouter.com</a>. Stored in your browser only.</div>
+</div>
+
+<div class="field">
+  <label>Reference Image</label>
+  <div class="drop-zone" id="drop-zone">
+    <div class="label">Drop an image here or click to upload</div>
+    <div class="hint">JPG or PNG, used as the first frame</div>
+    <input type="file" id="image-input" accept="image/jpeg,image/png">
+  </div>
+</div>
+
+<div class="field">
+  <label>Prompt Presets</label>
+  <div class="presets" id="presets"></div>
+</div>
+
+<div class="field">
+  <label for="prompt">Prompt</label>
+  <textarea id="prompt" rows="6" placeholder="Describe what happens in the video..."></textarea>
+</div>
+
+<div class="row">
+  <div class="field">
+    <label for="model">Model</label>
+    <select id="model">
+      <option value="kling-v3" selected>Kling v3 (best for i2v)</option>
+      <option value="kling-v2-6">Kling v2.6</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="duration">Duration</label>
+    <select id="duration">
+      <option value="5" selected>5 seconds</option>
+      <option value="10">10 seconds</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="aspect">Aspect Ratio</label>
+    <select id="aspect">
+      <option value="16:9" selected>16:9 Landscape</option>
+      <option value="9:16">9:16 Vertical</option>
+      <option value="1:1">1:1 Square</option>
+    </select>
+  </div>
+</div>
+
+<button class="btn-primary" id="generate-btn" onclick="generate()">Generate Video</button>
+
+<div class="status-bar" id="status-bar">
+  <div class="status-text" id="status-text">Submitting...</div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="log" id="log"></div>
+</div>
+
+<div class="result" id="result">
+  <video id="result-video" controls></video>
+  <div class="result-actions">
+    <a id="download-link" download="video-gen.mp4">Download MP4</a>
+    <button onclick="copyPrompt()">Copy Prompt</button>
+  </div>
+</div>
+
+<div class="gallery" id="gallery" style="display:none;">
+  <h2>Generated This Session</h2>
+  <div class="gallery-grid" id="gallery-grid"></div>
+</div>
+
+<footer>
+  <p>Source: <a href="https://github.com/sunapi386/video-gen">sunapi386/video-gen</a> &middot; All processing happens via the TokenRouter API &mdash; nothing is stored on this server.</p>
+</footer>
+
+<script>
+const API_BASE = "https://api.tokenrouter.com";
+const POLL_INTERVAL = 5000;
+const MAX_POLL_TIME = 600000;
+
+const PRESETS = [
+  {
+    name: "KBO Fan Cam",
+    prompt: "Ultra-realistic live Korean KBO baseball broadcast screenshot. The camera has just found this person in the stadium crowd. They notice the jumbotron camera, eyes light up with surprise, then break into a bright genuine smile and give a happy enthusiastic wave directly at the lens. Seated among a packed lively Korean baseball crowd holding cheering thundersticks. Wearing a clean white baseball jersey. Telephoto broadcast lens with strong compression, shallow depth of field, slight broadcast video softness, subtle camera micro-shake from stabilization. Background crowd is active, cheering, clapping, waving team towels, slightly out of focus. Bright stadium flood lights, faint LED scoreboard glow. Candid jumbotron fan cam moment, pure broadcast realism, natural skin texture, no smoothing, 16:9 horizontal TV composition.",
+  },
+  {
+    name: "Paris Travel Vlog",
+    prompt: "High-energy cinematic Paris travel vlog, ultra-vivid colors, fast-paced editing, dynamic handheld camera work, authentic influencer aesthetic. The person rushes toward the camera laughing breathlessly with the Eiffel Tower behind them. Fast handheld motion, hair blowing wildly in the wind. Whip-pan selfie at Eiffel Tower, quick laugh close-up, fast spin transition beside the Seine. Louvre Pyramid with hyper-dynamic moving camera. Candid, joyful, vibrant travel energy.",
+  },
+  {
+    name: "Stadium Sigh",
+    prompt: "Candid broadcast camera captures this person in a packed baseball stadium. They let out a slow, dramatic sigh, resting their chin on their hand, looking contemplative and beautifully bored. The crowd behind them goes wild cheering. Telephoto lens, shallow depth of field, broadcast TV quality, slight video softness, 16:9 horizontal composition. Realistic skin texture, stadium lighting.",
+  },
+  {
+    name: "Concert Front Row",
+    prompt: "This person is at the front row of a massive K-pop concert, illuminated by stage lights. They look up at the camera with pure awe, then start dancing and singing along with the crowd. Neon pink and blue stage lights, confetti falling, giant LED screens in background. Broadcast camera quality, handheld micro-shake, shallow depth of field, crowd energy all around.",
+  },
+  {
+    name: "Cafe Window",
+    prompt: "Cinematic close-up of this person sitting at a cozy European cafe window on a rainy day. They take a sip of coffee, look out the window at the rain, then turn toward the camera with a warm gentle smile. Soft natural window light, raindrops on glass, warm amber tones, shallow depth of field, film grain. Peaceful, contemplative mood.",
+  },
+  {
+    name: "Red Carpet",
+    prompt: "This person walks confidently down a Hollywood red carpet premiere. Paparazzi camera flashes pop from all sides. They pause, turn toward the camera, and give a dazzling smile with a subtle pose. Glamorous lighting, bokeh flash bursts, velvet rope barriers, crowd behind barriers. Telephoto lens, sharp focus on subject, cinematic film look.",
+  },
+];
+
+let imageDataUri = null;
+
+// Restore API key
+const savedKey = localStorage.getItem("tokenrouter_api_key");
+if (savedKey) document.getElementById("api-key").value = savedKey;
+
+// Build preset buttons
+const presetsEl = document.getElementById("presets");
+PRESETS.forEach(function(p) {
+  const btn = document.createElement("button");
+  btn.className = "preset-btn";
+  btn.textContent = p.name;
+  btn.addEventListener("click", function() {
+    document.getElementById("prompt").value = p.prompt;
+  });
+  presetsEl.appendChild(btn);
+});
+
+// Drop zone
+const dropZone = document.getElementById("drop-zone");
+const imageInput = document.getElementById("image-input");
+
+dropZone.addEventListener("dragover", function(e) { e.preventDefault(); dropZone.classList.add("dragover"); });
+dropZone.addEventListener("dragleave", function() { dropZone.classList.remove("dragover"); });
+dropZone.addEventListener("drop", function(e) {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  if (e.dataTransfer.files.length) loadImage(e.dataTransfer.files[0]);
+});
+imageInput.addEventListener("change", function() { if (imageInput.files.length) loadImage(imageInput.files[0]); });
+
+function loadImage(file) {
+  if (!file.type.match(/^image\/(jpeg|png)$/)) {
+    alert("Please upload a JPG or PNG image.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    imageDataUri = e.target.result;
+
+    // Clear drop zone content safely
+    while (dropZone.firstChild) dropZone.removeChild(dropZone.firstChild);
+
+    const img = document.createElement("img");
+    img.src = imageDataUri;
+    img.alt = "Reference";
+    dropZone.appendChild(img);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.style.marginTop = "0.5rem";
+    hint.textContent = file.name + " (" + (file.size / 1024).toFixed(0) + " KB) — click to change";
+    dropZone.appendChild(hint);
+
+    const newInput = document.createElement("input");
+    newInput.type = "file";
+    newInput.accept = "image/jpeg,image/png";
+    newInput.addEventListener("change", function() { if (this.files.length) loadImage(this.files[0]); });
+    dropZone.appendChild(newInput);
+  };
+  reader.readAsDataURL(file);
+}
+
+function log(msg) {
+  const el = document.getElementById("log");
+  el.textContent += msg + "\n";
+  el.scrollTop = el.scrollHeight;
+}
+
+async function apiRequest(method, path, apiKey, data) {
+  const opts = {
+    method: method,
+    headers: { "Authorization": "Bearer " + apiKey, "Content-Type": "application/json" },
+  };
+  if (data) opts.body = JSON.stringify(data);
+  const resp = await fetch(API_BASE + path, opts);
+  if (!resp.ok) {
+    const text = await resp.text();
+    throw new Error("HTTP " + resp.status + ": " + text);
+  }
+  return resp.json();
+}
+
+async function generate() {
+  const apiKey = document.getElementById("api-key").value.trim();
+  const prompt = document.getElementById("prompt").value.trim();
+  const model = document.getElementById("model").value;
+  const duration = document.getElementById("duration").value;
+  const aspect = document.getElementById("aspect").value;
+
+  if (!apiKey) { alert("Enter your TokenRouter API key."); return; }
+  if (!prompt) { alert("Enter a prompt."); return; }
+
+  // Save key
+  localStorage.setItem("tokenrouter_api_key", apiKey);
+
+  const btn = document.getElementById("generate-btn");
+  const statusBar = document.getElementById("status-bar");
+  const statusText = document.getElementById("status-text");
+  const progressFill = document.getElementById("progress-fill");
+  const resultEl = document.getElementById("result");
+
+  btn.disabled = true;
+  statusBar.classList.add("visible");
+  resultEl.classList.remove("visible");
+  progressFill.className = "progress-fill";
+  progressFill.style.width = "0%";
+  document.getElementById("log").textContent = "";
+
+  var payload = {
+    model: model,
+    prompt: prompt,
+    metadata: { mode: "pro", duration: duration, aspect_ratio: aspect, sound: "off" },
+  };
+
+  if (imageDataUri) {
+    payload.image = imageDataUri;
+    log("Image attached as first frame");
+  } else {
+    log("No image — text-to-video mode");
+  }
+
+  // Submit
+  statusText.textContent = "Submitting task...";
+  log("Model: " + model + ", Duration: " + duration + "s, Aspect: " + aspect);
+
+  var taskId;
+  try {
+    var result = await apiRequest("POST", "/v1/video/generations", apiKey, payload);
+    taskId = result.task_id || (result.data && result.data.task_id);
+    if (!taskId) throw new Error("No task_id in response: " + JSON.stringify(result));
+    log("Task created: " + taskId);
+    progressFill.style.width = "5%";
+  } catch (e) {
+    statusText.textContent = "Failed to submit";
+    progressFill.className = "progress-fill error";
+    progressFill.style.width = "100%";
+    log("Error: " + e.message);
+    btn.disabled = false;
+    return;
+  }
+
+  // Poll
+  statusText.textContent = "Generating...";
+  var startTime = Date.now();
+
+  while (Date.now() - startTime < MAX_POLL_TIME) {
+    await new Promise(function(r) { setTimeout(r, POLL_INTERVAL); });
+
+    try {
+      var pollResult = await apiRequest("GET", "/v1/video/generations/" + taskId, apiKey);
+      var data = pollResult.data || pollResult;
+      var status = data.status || "UNKNOWN";
+      var progress = data.progress || 0;
+      var elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
+
+      log("[" + elapsed + "s] " + status + " (" + progress + "%)");
+      progressFill.style.width = Math.max(5, Math.min(95, progress)) + "%";
+      statusText.textContent = "Generating... " + progress + "% (" + elapsed + "s)";
+
+      if (status === "SUCCESS") {
+        var videoUrl = data.result_url;
+        progressFill.style.width = "100%";
+        progressFill.className = "progress-fill done";
+        statusText.textContent = "Done!";
+        log("Video ready: " + videoUrl);
+
+        document.getElementById("result-video").src = videoUrl;
+        document.getElementById("download-link").href = videoUrl;
+        resultEl.classList.add("visible");
+
+        addToGallery(videoUrl, prompt, model);
+        btn.disabled = false;
+        return;
+      }
+
+      if (status === "FAILURE" || status === "FAILED") {
+        progressFill.className = "progress-fill error";
+        progressFill.style.width = "100%";
+        statusText.textContent = "Generation failed";
+        log("Task failed: " + JSON.stringify(data));
+        btn.disabled = false;
+        return;
+      }
+    } catch (e) {
+      log("Poll error: " + e.message);
+    }
+  }
+
+  statusText.textContent = "Timed out";
+  progressFill.className = "progress-fill error";
+  progressFill.style.width = "100%";
+  log("Timed out after 10 minutes");
+  btn.disabled = false;
+}
+
+function addToGallery(url, prompt, model) {
+  var gallery = document.getElementById("gallery");
+  var grid = document.getElementById("gallery-grid");
+  gallery.style.display = "block";
+
+  var card = document.createElement("div");
+  card.className = "gallery-card";
+
+  var video = document.createElement("video");
+  video.controls = true;
+  video.preload = "metadata";
+  video.src = url;
+  card.appendChild(video);
+
+  var info = document.createElement("div");
+  info.className = "info";
+  info.textContent = model + " · " + new Date().toLocaleTimeString() + " — " + prompt.substring(0, 80) + "...";
+  card.appendChild(info);
+
+  grid.prepend(card);
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(document.getElementById("prompt").value);
+}
+</script>
+</body>
+</html>

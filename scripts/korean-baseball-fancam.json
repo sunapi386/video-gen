@@ -1,0 +1,17 @@
+{
+  "title": "Korean Baseball Fan Cam — Kling v3 Image-to-Video",
+  "description": "KBO-style broadcast fan cam trend. Reference photo as first frame, Kling v3 i2v mode.",
+  "scenes": [
+    {
+      "name": "kbo_fancam",
+      "model": "kling-v3",
+      "image": "<base64 data URI of reference photo — use: data:image/jpeg;base64,... >",
+      "prompt": "Ultra-realistic live Korean KBO baseball broadcast screenshot. The camera has just found this woman in the stadium crowd. She notices the jumbotron camera on her, her eyes light up with surprise, then she breaks into a bright genuine smile and gives a happy enthusiastic wave directly at the lens. Seated among a packed lively Korean baseball crowd holding cheering thundersticks. She is wearing a clean white baseball jersey. Telephoto broadcast lens with strong compression, shallow depth of field, slight broadcast video softness, subtle camera micro-shake from stabilization. Background crowd is active, cheering, clapping, waving team towels, slightly out of focus. Bright stadium flood lights, faint LED scoreboard glow. Candid jumbotron fan cam moment, pure broadcast realism, natural skin texture, no smoothing, 16:9 horizontal TV composition.",
+      "duration": 5,
+      "metadata": {
+        "mode": "pro",
+        "aspect_ratio": "16:9"
+      }
+    }
+  ]
+}
