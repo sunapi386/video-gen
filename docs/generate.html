@@ -120,6 +120,7 @@
     <select id="model">
       <option value="kling-v3" selected>Kling v3 (best for i2v)</option>
       <option value="kling-v2-6">Kling v2.6</option>
+      <option value="happyhorse-1.0-t2v">HappyHorse (accepts image)</option>
     </select>
   </div>
   <div class="field">
@@ -193,6 +194,14 @@ const PRESETS = [
   {
     name: "Red Carpet",
     prompt: "This person walks confidently down a Hollywood red carpet premiere. Paparazzi camera flashes pop from all sides. They pause, turn toward the camera, and give a dazzling smile with a subtle pose. Glamorous lighting, bokeh flash bursts, velvet rope barriers, crowd behind barriers. Telephoto lens, sharp focus on subject, cinematic film look.",
+  },
+  {
+    name: "Gentle Smile (i2v)",
+    prompt: "The person in the photo looks at the camera with a calm expression, then their lips slowly curl into a warm natural smile. Their eyes brighten and they blink gently. Very subtle head tilt. Keep the existing scene, background, clothing, and lighting exactly as-is. Photorealistic, natural skin texture, minimal movement.",
+  },
+  {
+    name: "Hair Toss (i2v)",
+    prompt: "The person in the photo finishes a natural motion, then turns slightly toward the camera with a playful, candid expression. Subtle movement — a gentle hair adjustment, slight shoulder shift. Keep the existing scene and lighting exactly as-is. Photorealistic, natural motion, candid moment.",
   },
 ];
 
@@ -305,11 +314,15 @@ async function generate() {
   progressFill.style.width = "0%";
   document.getElementById("log").textContent = "";
 
-  var payload = {
-    model: model,
-    prompt: prompt,
-    metadata: { mode: "pro", duration: duration, aspect_ratio: aspect, sound: "off" },
-  };
+  var payload = { model: model, prompt: prompt };
+
+  if (model.startsWith("happyhorse")) {
+    payload.size = "1920*1080";
+    payload.duration = parseInt(duration);
+    payload.metadata = {};
+  } else {
+    payload.metadata = { mode: "pro", duration: duration, aspect_ratio: aspect, sound: "off" };
+  }
 
   if (imageDataUri) {
     payload.image = imageDataUri;

@@ -1,0 +1,77 @@
+{
+  "title": "Photo Animation — Multi-Model Comparison",
+  "description": "Animate two reference photos using Kling v3 and HappyHorse, with AI-generated audio narration merged via ffmpeg. Seedance blocks real-person photos.",
+  "notes": {
+    "models_tested": ["kling-v3 (i2v)", "happyhorse-1.0-t2v (accepts image field)", "dreamina-seedance-2-0-260128 (blocks real persons)"],
+    "audio_models": ["openai/gpt-audio (streaming pcm16 → ffmpeg → mp3)"],
+    "key_lesson": "Keep i2v prompts close to the original scene — describe what is already in the photo and add only subtle motion (blink, smile, head tilt). Avoid changing clothes, location, or background."
+  },
+  "scenes": [
+    {
+      "name": "ontario_kling",
+      "model": "kling-v3",
+      "image": "<base64 data URI of ontario-02467.jpg>",
+      "prompt": "A young East Asian woman with black hair pulled back and eyeglasses resting on top of her head stands in a museum gallery. She wears a red sleeveless top and a delicate silver chain necklace. She looks at the camera with a calm expression, then her lips slowly curl into a warm natural smile. Her eyes brighten and she blinks gently. Very subtle head tilt. Behind her, glass display cases with miniature soldier figurines are softly out of focus. Warm indoor museum lighting, natural skin texture. Photorealistic, shot on 50mm portrait lens, shallow depth of field. Minimal movement, keep the scene as-is.",
+      "duration": 5,
+      "metadata": {
+        "mode": "pro",
+        "aspect_ratio": "16:9"
+      }
+    },
+    {
+      "name": "jewelry_kling",
+      "model": "kling-v3",
+      "image": "<base64 data URI of IMG_2273.jpg>",
+      "prompt": "A young East Asian woman in a fitted red sleeveless knit polo top at a luxury jewelry boutique. She has her arms raised behind her head, tying her long black hair into a ponytail. She finishes tying her hair, lowers her arms naturally, and turns slightly toward the camera with a playful, candid expression. A phone is tucked against her arm. Elegant glass display cases with jewelry on white pedestals behind her. Soft recessed lighting and a decorative gold coral-branch chandelier overhead. Natural motion, photorealistic, candid moment, warm lighting.",
+      "duration": 5,
+      "metadata": {
+        "mode": "pro",
+        "aspect_ratio": "16:9"
+      }
+    },
+    {
+      "name": "ontario_happyhorse",
+      "model": "happyhorse-1.0-t2v",
+      "image": "<base64 data URI of ontario-02467.jpg>",
+      "prompt": "A young woman with black hair and glasses on her head stands in a museum. She smiles warmly at the camera. Warm indoor lighting, glass display cases behind her. Photorealistic, subtle motion.",
+      "duration": 5,
+      "metadata": {
+        "size": "1920*1080"
+      }
+    },
+    {
+      "name": "jewelry_happyhorse",
+      "model": "happyhorse-1.0-t2v",
+      "image": "<base64 data URI of IMG_2273.jpg>",
+      "prompt": "A young woman in a red sleeveless knit top at a luxury jewelry store. She finishes tying her hair into a ponytail, lowers her arms, and turns to look at the camera with a playful smile. Glass display cases with jewelry behind her, elegant store lighting and gold coral chandelier. Natural candid motion, photorealistic.",
+      "duration": 5,
+      "metadata": {
+        "size": "1920*1080"
+      }
+    }
+  ],
+  "audio": [
+    {
+      "name": "museum_narration",
+      "model": "openai/gpt-audio",
+      "voice": "nova",
+      "text": "She stands among the miniatures, lost in another century's battles. A quiet smile — the museum's gift to those who linger.",
+      "format": "pcm16_stream_to_mp3"
+    },
+    {
+      "name": "jewelry_narration",
+      "model": "openai/gpt-audio",
+      "voice": "nova",
+      "text": "Caught in the act — tying her hair between display cases. The coral chandelier watches. She doesn't mind the audience.",
+      "format": "pcm16_stream_to_mp3"
+    },
+    {
+      "name": "ambient_museum",
+      "model": "openai/gpt-audio",
+      "voice": "shimmer",
+      "text": "The museum breathes quietly around her.",
+      "format": "pcm16_stream_to_mp3"
+    }
+  ],
+  "merge": "ffmpeg -y -i <video>.mp4 -i <audio>.mp3 -c:v copy -c:a aac -shortest <output>.mp4"
+}

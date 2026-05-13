@@ -39,6 +39,108 @@
 <h1>video-gen demos</h1>
 <p class="subtitle">Generated with <a href="https://github.com/sunapi386/video-gen">video-gen</a> via the <a href="https://tokenrouter.com">TokenRouter</a> API &middot; <a href="generate.html" style="font-weight:600;">Generate your own &rarr;</a></p>
 
+<h2>Photo Animation &mdash; Multi-Model Comparison</h2>
+<p>Same reference photos animated with different models and prompts. Key insight: keep i2v prompts close to the original scene &mdash; describe what's already in the photo and add only subtle motion (blink, smile, head tilt). Audio narration generated with <code>openai/gpt-audio</code> (streaming pcm16) and merged via ffmpeg.</p>
+
+<h3>Museum Portrait</h3>
+<div class="prompt">
+"A young East Asian woman with black hair pulled back and eyeglasses resting on top of her head stands in a museum gallery. She wears a red sleeveless top and a delicate silver chain necklace. She looks at the camera with a calm expression, then her lips slowly curl into a warm natural smile. Her eyes brighten and she blinks gently. Very subtle head tilt. Behind her, glass display cases with miniature soldier figurines are softly out of focus. Warm indoor museum lighting, natural skin texture. Photorealistic, shot on 50mm portrait lens, shallow depth of field. Minimal movement, keep the scene as-is."
+</div>
+
+<div class="grid">
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/ontario_kling.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling v3</span> Museum Portrait</h4>
+      <div class="meta">5s &middot; 7.6 MB &middot; 1760x1176 &middot; i2v</div>
+    </div>
+  </div>
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/ontario_happyhorse.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge happyhorse">HappyHorse</span> Museum Portrait</h4>
+      <div class="meta">5s &middot; 2.3 MB &middot; t2v with image</div>
+    </div>
+  </div>
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/ontario_kling_narrated.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling v3</span> + Audio Narration</h4>
+      <div class="meta">5s &middot; 7.6 MB &middot; openai/gpt-audio (nova) merged via ffmpeg</div>
+    </div>
+  </div>
+</div>
+
+<h3>Jewelry Boutique</h3>
+<div class="prompt">
+"A young East Asian woman in a fitted red sleeveless knit polo top at a luxury jewelry boutique. She has her arms raised behind her head, tying her long black hair into a ponytail. She finishes tying her hair, lowers her arms naturally, and turns slightly toward the camera with a playful, candid expression. A phone is tucked against her arm. Elegant glass display cases with jewelry on white pedestals behind her. Soft recessed lighting and a decorative gold coral-branch chandelier overhead. Natural motion, photorealistic, candid moment, warm lighting."
+</div>
+
+<div class="grid">
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/jewelry_kling.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling v3</span> Jewelry Boutique</h4>
+      <div class="meta">5s &middot; 8.4 MB &middot; 1660x1244 &middot; i2v</div>
+    </div>
+  </div>
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/jewelry_happyhorse.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge happyhorse">HappyHorse</span> Jewelry Boutique</h4>
+      <div class="meta">5s &middot; 3.1 MB &middot; t2v with image</div>
+    </div>
+  </div>
+  <div class="card">
+    <video controls preload="metadata">
+      <source src="https://github.com/sunapi386/video-gen/releases/download/v0.1.0-demos/jewelry_kling_narrated.mp4" type="video/mp4">
+    </video>
+    <div class="info">
+      <h4><span class="badge kling">Kling v3</span> + Audio Narration</h4>
+      <div class="meta">5s &middot; 8.5 MB &middot; openai/gpt-audio (nova) merged via ffmpeg</div>
+    </div>
+  </div>
+</div>
+
+<h3>Audio Generation Pipeline</h3>
+<p>Audio narration generated via <code>openai/gpt-audio</code> streaming chat completions (pcm16 format), converted to MP3 with ffmpeg, then merged with video using <code>ffmpeg -i video.mp4 -i audio.mp3 -c:v copy -c:a aac -shortest output.mp4</code>.</p>
+<table style="width:100%; border-collapse:collapse; font-size:0.9rem; margin:1rem 0;">
+  <tr style="border-bottom:1px solid var(--border);">
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Track</th>
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Model</th>
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Voice</th>
+    <th style="text-align:left; padding:0.5rem; color:var(--muted);">Transcript</th>
+  </tr>
+  <tr style="border-bottom:1px solid var(--border);">
+    <td style="padding:0.5rem;">Museum narration</td>
+    <td style="padding:0.5rem;">openai/gpt-audio</td>
+    <td style="padding:0.5rem;">nova</td>
+    <td style="padding:0.5rem; color:var(--muted); font-style:italic;">"She stands among the miniatures, lost in another century's battles. A quiet smile &mdash; the museum's gift to those who linger."</td>
+  </tr>
+  <tr style="border-bottom:1px solid var(--border);">
+    <td style="padding:0.5rem;">Jewelry narration</td>
+    <td style="padding:0.5rem;">openai/gpt-audio</td>
+    <td style="padding:0.5rem;">nova</td>
+    <td style="padding:0.5rem; color:var(--muted); font-style:italic;">"Caught in the act &mdash; tying her hair between display cases. The coral chandelier watches. She doesn't mind the audience."</td>
+  </tr>
+  <tr style="border-bottom:1px solid var(--border);">
+    <td style="padding:0.5rem;">Ambient</td>
+    <td style="padding:0.5rem;">openai/gpt-audio</td>
+    <td style="padding:0.5rem;">shimmer</td>
+    <td style="padding:0.5rem; color:var(--muted); font-style:italic;">"The museum breathes quietly around her."</td>
+  </tr>
+</table>
+
 <h2>KBO Fan Cam &mdash; Image-to-Video</h2>
 <p>Korean baseball broadcast fan cam trend. Reference photo as first frame, Kling v3 i2v mode. 5s, 16:9 landscape.</p>
 
@@ -95,9 +197,9 @@
     <td style="padding:0.5rem; color:var(--muted);">PrivacyInformation &mdash; real person detected</td>
   </tr>
   <tr style="border-bottom:1px solid var(--border);">
-    <td style="padding:0.5rem;"><span class="badge happyhorse">Happyhorse i2v</span></td>
-    <td style="padding:0.5rem; color:#f85149;">API Error</td>
-    <td style="padding:0.5rem; color:var(--muted);">Field required: input.media &mdash; undocumented payload format</td>
+    <td style="padding:0.5rem;"><span class="badge happyhorse">HappyHorse t2v</span></td>
+    <td style="padding:0.5rem; color:#3fb950;">Accepted</td>
+    <td style="padding:0.5rem; color:var(--muted);">i2v model not listed; t2v accepts <code>image</code> field as reference</td>
   </tr>
 </table>
 
